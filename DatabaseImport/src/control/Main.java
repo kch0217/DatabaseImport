@@ -13,7 +13,7 @@ public class Main {
 	public static String fieldPath = "H:\\Opon edX\\hkustx-2014-09-28\\User\\schema_list\\auth_user.txt";
 	public static String tableName = "auth_user";
 	public static String className = "AuthUser";
-	public static String fieldName = "AUTH_USER";
+	public static String fieldName = "AUTH_USER_TEST";
 	public static String dbuser = "testroot";
 	public static String dbpw = "testroot";
 	public static String dbpath = "jdbc:mysql://localhost:3306/bitnami_edx";
@@ -23,9 +23,11 @@ public class Main {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		Establish.go();
-		DatabaseConnection.connect(dbpath, dbuser, dbpw);
-		List<Path> paths = loadFile.loadFileList(filePath, tableName);
-		loadFile.getAllValuesAndAdd(paths);
+//		DatabaseConnection.connect(dbpath, dbuser, dbpw);
+//		List<Path> paths = loadFile.loadFileList(filePath, tableName);
+//		loadFile.getAllValuesAndAdd(paths);
+		
+		System.out.println("=======================Finished=====================");
 		
 		
 

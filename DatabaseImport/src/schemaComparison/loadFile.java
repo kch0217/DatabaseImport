@@ -1,6 +1,8 @@
 package schemaComparison;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -25,32 +27,28 @@ public class loadFile {
 	public static ArrayList<Path> loadFileList(String path, String tableList){
 		ArrayList<Path> list = new ArrayList<>();
 		String tablename = "-" + tableList + "-";
-		try(Stream<Path> paths = Files.walk(Paths.get(path))) {
-		    paths.forEach(filePath -> {
-		        if (Files.isRegularFile(filePath) && filePath.getFileName().toString().contains(tablename)) {
-		            list.add(filePath);
-		        }
-		    });
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+//		try(Stream<Path> paths = Files.walk(Paths.get(path))) {
+//		    paths.forEach(filePath -> {
+//		        if (Files.isRegularFile(filePath) && filePath.getFileName().toString().contains(tablename)) {
+//		            list.add(filePath);
+//		        }
+//		    });
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		final File folder = new File(path);
+		for (final File fileEntry: folder.listFiles()){
+			if (!fileEntry.isDirectory() && fileEntry.getName().contains(tablename)){
+				list.add(fileEntry.toPath());
+			}
+			
 		}
 		System.out.println("Total number of file to load is "+ list.size());
 		return list;
 	}
 	
-//	private static Object loadClassAndInstantiate(String name){
-//		Class<?> clazz = null;
-//		try {
-//			clazz = Class.forName(name);
-//		} catch (ClassNotFoundException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		return clazz;
-//		
-//	}
-	
+
 	
 	private static List<String> loadSchema(){
 		List<String> listoffields = new ArrayList<>();
@@ -97,26 +95,48 @@ public class loadFile {
 		
 		List<String> list = new ArrayList<>();
 		records = new TreeMap<Integer, ArrayList<String>>();
-		try (Stream<String> stream = Files.lines(Paths.get(file.toString()))) {
-
-			list = stream.collect(Collectors.toList());
-			
+//		try (Stream<String> stream = Files.lines(Paths.get(file.toString()))) {
+//
+//			list = stream.collect(Collectors.toList());
+//			
+//			if (!list.isEmpty()){
+//				//first line
+//				listOfFields = new ArrayList<String>(Arrays.asList(list.remove(0).split("\t")));
+//				//get the useful field
+//				correspondingUsefulFieldIndex = usedIndex(loadSchema(), listOfFields);
+//				
+//				list.forEach(record -> {
+//					ArrayList<String> temp = new ArrayList<String>(Arrays.asList(record.split("\t")));
+//					records.put((Integer)Integer.parseInt(temp.get(0)), temp);
+//				});
+//				
+//				
+//				
+//			}
+//
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+		
+		try {
+			list = Files.readAllLines(file, Charset.defaultCharset());
 			if (!list.isEmpty()){
 				//first line
 				listOfFields = new ArrayList<String>(Arrays.asList(list.remove(0).split("\t")));
+				
 				//get the useful field
 				correspondingUsefulFieldIndex = usedIndex(loadSchema(), listOfFields);
 				
-				list.forEach(record -> {
+				
+				for (String record: list){
 					ArrayList<String> temp = new ArrayList<String>(Arrays.asList(record.split("\t")));
 					records.put((Integer)Integer.parseInt(temp.get(0)), temp);
-				});
-				
+				}
 				
 				
 			}
-
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -125,15 +145,23 @@ public class loadFile {
 	}
 	
 	public static void getAllValuesAndAdd(List<Path> files){
-		int count = 0;
-		files.forEach(file->{
+	
+//		files.forEach(file->{
+//			System.out.println("Handling "+ file);
+//			
+//			
+//			loadFile.getValue(file);
+//			DatabaseConnection.batchInsert();
+//			
+//		});
+		
+		for (Path file: files){
 			System.out.println("Handling "+ file);
 			
 			
 			loadFile.getValue(file);
 			DatabaseConnection.batchInsert();
-			
-		});
+		}
 
 	}
 
