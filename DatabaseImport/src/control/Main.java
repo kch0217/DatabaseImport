@@ -11,9 +11,9 @@ public class Main {
 	
 	public static String filePath = "H:\\Opon edX\\hkustx-2014-09-28\\User";
 	public static String fieldPath = "H:\\Opon edX\\hkustx-2014-09-28\\User\\schema_list\\auth_user.txt";
-	public static String tableName = "auth_user";
-	public static String className = "AuthUser";
-	public static String fieldName = "AUTH_USER_TEST";
+	public static String tableName = "auth_userprofile";
+//	public static String className = "AuthUserprofile";
+	public static String fieldName = "AUTH_USERPROFILE";
 	public static String dbuser = "testroot";
 	public static String dbpw = "testroot";
 	public static String dbpath = "jdbc:mysql://localhost:3306/bitnami_edx";
