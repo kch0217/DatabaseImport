@@ -22,10 +22,11 @@ public class Main {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		Establish.go();
+//		Establish.go();
 //		DatabaseConnection.connect(dbpath, dbuser, dbpw);
 //		List<Path> paths = loadFile.loadFileList(filePath, tableName);
 //		loadFile.getAllValuesAndAdd(paths);
+		loadFile.divideLargeFile("F:\\Opon edX\\hkustx-2014-09-28\\Studentmodule\\HKUSTx-COMP102x-2T2014-courseware_studentmodule-prod-analytics.sql", "F:\\Opon edX\\hkustx-2014-09-28\\Studentmodule\\temp");
 		
 		System.out.println("=======================Finished=====================");
 		

@@ -1,5 +1,6 @@
 package schemaComparison;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -145,7 +146,7 @@ public class loadFile {
 	}
 	
 	public static void getAllValuesAndAdd(List<Path> files){
-	
+		
 //		files.forEach(file->{
 //			System.out.println("Handling "+ file);
 //			
@@ -163,6 +164,39 @@ public class loadFile {
 			DatabaseConnection.batchInsert();
 		}
 
+	}
+	
+	public static void divideLargeFile(String file, String out){
+		List<String> list = new ArrayList<>();
+		records = new TreeMap<Integer, ArrayList<String>>();
+		String head = null;
+		int no = 0;
+		try (Stream<String> stream = Files.lines(Paths.get(file))) {
+
+			list = stream.collect(Collectors.toList());
+			
+			if (!list.isEmpty()){
+				//first line
+				head = list.remove(0);
+
+
+				
+			}
+			for (int i = 0; i< 10 ; i++){
+				String outfile = out + "_" + no;
+				try (BufferedWriter writer = Files.newBufferedWriter(Paths.get(outfile))) {
+					writer.write(head+"\n");
+					for (int j = no*list.size()/10; j < list.size()/10*(no+1); j++){
+						writer.write(list.get(j)+"\n");
+					}
+					no++;
+					
+				}
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 
